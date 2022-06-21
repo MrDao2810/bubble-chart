@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    
+    <title>Bubble Chart</title>
+</head>
+<body>
+    <div class="container">
+        <div class="config-panel">
+            <div class="run-one-panel">
+                <div class="year-selector">
+                    <input class="run-one-year-selector" type="text" placeholder="Enter year value here!">
+                    <button class="run-one-year-button" type="button">Go</button>
+                </div>
+                <div class="year-navigation">
+                    <button class="run-one-year-prev-button" type="button">Prev</button>
+                    <button class="run-one-year-next-button" type="button">Next</button>
+                </div>
+            </div>
+            <div class="run-multiple-panel">
+                <input class="run-multiple-year-selector-start" type="text" placeholder="Year start">
+                <input class="run-multiple-year-selector-end" type="text" placeholder="Year end">
+                <button class="run-multiple-year-button" type="button">Go</button>
+            </div>
+        </div>
+        <div class="chart-panel">
+            <div class="chart-descriptions">
+                <div class="chart-title">
+                    <span class="many-multiple-year"></span>
+                </div>
+                <div class="chart-current-year">
+                    <span class="one-year-current"></span>
+                </div>
+            </div>
+            <div class="chart-ticker-list">
+                <div class="chart-ticker-item">
+                    <div class="chart-ticker-item-img"></div>
+                    <div class="chart-ticker-item-name">
+                        <div class="chart-ticker-name">AAA</div>
+                    </div>
+                    <div class="chart-ticker-item-capital-text">
+                        <div class="chart-ticker-item-capital">150</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+</html>

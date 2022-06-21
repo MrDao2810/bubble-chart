@@ -1,0 +1,139 @@
+div {
+    /* border: 1px solid black;     */
+}
+
+.container {
+    position: relative;
+}
+
+/* START: config panel */
+.config-panel {
+    display: block;
+    height: 80px;
+    padding: 10px 10px;
+}
+
+.config-panel .run-one-panel {
+    width: 50%;
+    float: left;
+    height: 100%;
+}
+
+.config-panel .run-one-panel .year-selector{
+
+}
+
+.config-panel .run-one-panel .year-selector text{
+
+}
+
+.config-panel .run-one-panel .year-selector button{
+
+}
+
+.config-panel .run-one-panel .year-navigation{
+
+}
+
+.config-panel .run-one-panel .year-navigation text{
+
+}
+
+.config-panel .run-one-panel .year-navigation button{
+
+}
+
+.config-panel .run-multiple-panel {
+    width: 50%;
+    float: right;
+    height: 100%;
+}
+
+.config-panel .run-multiple-panel text{
+
+}
+
+.config-panel .run-multiple-panel button{
+
+}
+/* END: config panel */
+
+
+/* START: chart panel */
+.chart-panel {
+
+}
+
+.chart-panel .chart-descriptions {
+    display: block;
+    height: 40px;
+}
+
+.chart-panel .chart-descriptions .chart-title {
+    width: 45%;
+    height: 100%;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.chart-panel .chart-descriptions .chart-current-year {
+    width: 45%;
+    height: 100%;
+    float: right;
+    padding-left: 10px;
+}
+
+.chart-panel .chart-ticker-list {
+    width: 150px;
+    position: relative;
+}
+
+.chart-panel .chart-ticker-list .chart-ticker-item .chart-ticker-item-img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 2px 0;
+    background: red;
+    border-radius: 100%;
+}
+
+.chart-panel .chart-ticker-list .chart-ticker-item .chart-ticker-item-name {
+    width: 60px;
+    height: 60px;
+    background-color: red;
+    text-align: center;
+    border-radius: 50px;
+    position: absolute;
+    top: 30px;
+    left: 45px;
+}
+
+.chart-panel .chart-ticker-list .chart-ticker-item-name .chart-ticker-name {
+    padding-top: 15px;
+}
+/* .chart-panel .chart-ticker-list .chart-ticker-item .chart-ticker-item-capital-img { */
+    /* background-color: rgb(255, 208, 0); */
+    /* width: calc(100% - 550px); */
+    /* height: 20px;
+    float: left; */
+/* } */
+
+
+.chart-panel .chart-ticker-list .chart-ticker-item-capital-text {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    text-align: center;
+    border-radius: 50px;
+    position: absolute;
+    top: 80px;
+    right: 60px;
+}
+.chart-panel .chart-ticker-list .chart-ticker-item-capital-text .chart-ticker-item-capital {
+    padding-top: 10px;
+}
+
+
+/* END: chart panel */
+
