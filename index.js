@@ -8,7 +8,7 @@
     const manyYearCurrent = document.getElementsByClassName('many-multiple-year')[0];
     runOneYearButton.addEventListener('click', () => {
         playOneYear();
-    })
+    });
     const runOneYearPrevButton = document.getElementsByClassName('run-one-year-prev-button')[0];
     runOneYearPrevButton.addEventListener('click', () => {
         playOneYearPrev();
@@ -17,7 +17,13 @@
     runOneYearNextButton.addEventListener('click', () => {
         playOneYearNext();
     });
-
+    // Init run multiple year panel
+    const runMultipleYearSelectorStartText = document.getElementsByClassName('run-multiple-year-selector-start')[0];
+    const runMultipleYearSelectorEndText = document.getElementsByClassName('run-multiple-year-selector-end')[0];
+    const runMultipleYearButton = document.getElementsByClassName('run-multiple-year-button')[0];
+    runMultipleYearButton.addEventListener('click', () => {
+        playMultipleYear();
+    });
     // Init data
     const maxCapitalImgWidth = 1000;
     function createDiv(className, innerHTML) {
@@ -34,30 +40,23 @@
         let tickerItemDiv = createDiv('chart-ticker-item');
         tickerItemDiv.setAttribute('name', tickerData.ticker);
         tickerItemDiv.setAttribute('id', tickerData.ticker);
+        tickerItemDiv.style.setProperty('width', tickerData.capitalItem + 'px');
+        tickerItemDiv.style.setProperty('height', tickerData.capitalItem + 'px');
+        tickerItemDiv.style.background = tickerData.color;
         // Create ticker item name div
-        let tickerItemNameDiv = createDiv('chart-ticker-item-name');
-        let tickerNameDiv = createDiv('chart-ticker-name', tickerData.ticker);
-        // Create ticker item capital img div
-        let tickerItemCapitalImgDiv = createDiv('chart-ticker-item-img');
-        tickerItemCapitalImgDiv.style.setProperty('width', tickerData.capitalImgWidth + 'px');
-        tickerItemCapitalImgDiv.style.setProperty('height', tickerData.capitalImgWidth + 'px');
-        tickerItemCapitalImgDiv.style.background = tickerData.color;
+        let tickerItemNameDiv = createDiv('chart-ticker-item-name', tickerData.ticker);
         // Create ticker item capital text div
-        let tickerItemCapitalTextDiv = createDiv('chart-ticker-item-capital-text');
-        let tickerCapitalTextDiv = createDiv('chart-ticker-item-text', tickerData.capital);
-        tickerItemCapitalTextDiv.append(tickerCapitalTextDiv);
+        let tickerItemCapitalTextDiv = createDiv('chart-ticker-item-capital-text', tickerData.capital);
         // Construct ticker item div by append all children div
-        tickerItemNameDiv.append(tickerNameDiv);
-        tickerItemDiv.append(tickerItemCapitalImgDiv);
         tickerItemDiv.append(tickerItemNameDiv);
         tickerItemDiv.append(tickerItemCapitalTextDiv);
         return tickerItemDiv;
 
     }
     function calculateCapitalWidth(sortedTickerDataList) {
-        const maxCapital = sortedTickerDataList[0].capital;
+        // const maxCapital = sortedTickerDataList[0].capital;
         for(let tickerData of sortedTickerDataList) {
-            tickerData.capitalImgWidth = tickerData.capital;
+            tickerData.capitalItem = tickerData.capital;
         }
         return sortedTickerDataList;
     }
@@ -78,12 +77,65 @@
         }
     }
     function playOneYear() {
+        let selectedYear = runOneYearSelectorText.value;
+        yearCurrent.innerHTML = 'Year current: ' + ( +selectedYear );
+        try {
+            if (+selectedYear < 2000) throw "no data below 2000";
+            if (+selectedYear > 2100) throw "no data below 2100";
+        } catch(e) {
+            alert(' ' + e);
+        }
         playAYear(selectedYear);
     }
     function playAYear(year) {
         let specificYearTickerData = vn30Data[year];
         if(specificYearTickerData) {
             createTickerItemOfASpecificTime(specificYearTickerData);
+        }
+    }
+    function playOneYearPrev() {
+        let selectedYear = runOneYearSelectorText.value;
+        yearCurrent.innerHTML = 'Year current: ' + ( +selectedYear - 1 );
+        try {
+            if (+selectedYear < 2000) throw "no data below 2000";
+            selectedYear = parseInt(selectedYear);
+            runOneYearSelectorText.value = --selectedYear;
+        } catch(e) {
+            alert('' + e);
+        }
+        playAYear(selectedYear);
+    }
+
+    function playOneYearNext() {
+        runMultipleYearSelectorStartText.innerHTML = '';
+        let selectedYear = runOneYearSelectorText.value; // Year
+        yearCurrent.innerHTML = 'Year current: ' + (+selectedYear + 1);
+        try {
+            if (+selectedYear > 2100) throw "no data below 2100";
+            selectedYear = parseInt(selectedYear);
+            runOneYearSelectorText.value = ++selectedYear; // todo: validate min and max year depend on vn30 data
+        } catch(e) {
+            alert('' + e);
+        }
+        playAYear(selectedYear);
+    }
+    function playMultipleYear() {
+        try {
+            let startYear = parseInt(runMultipleYearSelectorStartText.value);
+            let endYear = parseInt(runMultipleYearSelectorEndText.value);
+            manyYearCurrent.innerHTML = 'Capital chart of VN30 from ' + startYear + ' to ' + endYear;
+            if(endYear < startYear || runMultipleYearSelectorStartText === ' ' || runMultipleYearSelectorEndText === ' ') {
+                return;
+            }
+            runOneYearSelectorText.value = startYear;
+            setInterval(() => {
+                let selectedYear = parseInt(runOneYearSelectorText.value);
+                if(selectedYear < endYear && selectedYear >= 2000 && endYear <= 2100) {
+                    playOneYearNext(vn30Data);
+                }
+            }, 1000);
+        } catch(e) {
+            console.log('invalid year');
         }
     }
     createTickerItemOfASpecificTime(vn30Data['2000']);
