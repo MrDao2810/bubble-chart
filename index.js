@@ -88,7 +88,7 @@
         playAYear(selectedYear);
     }
     function playAYear(year) {
-        let specificYearTickerData = vn30Data[year];
+        let specificYearTickerData = fakeData[year];
         if(specificYearTickerData) {
             createTickerItemOfASpecificTime(specificYearTickerData);
         }
@@ -131,12 +131,13 @@
             setInterval(() => {
                 let selectedYear = parseInt(runOneYearSelectorText.value);
                 if(selectedYear < endYear && selectedYear >= 2000 && endYear <= 2100) {
-                    playOneYearNext(vn30Data);
+                    playOneYearNext(fakeData);
                 }
             }, 1000);
         } catch(e) {
             console.log('invalid year');
         }
     }
-    createTickerItemOfASpecificTime(vn30Data['2000']);
+    let fakeData = generateData(vn30Data, initialCapital, velocity, 2000, 2100);
+    createTickerItemOfASpecificTime(fakeData['2000']);
 })()

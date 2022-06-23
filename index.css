@@ -85,7 +85,7 @@ div {
 }
 
 .chart-panel .chart-ticker-list {
-    display: flex;
+    /* display: flex; */
     /* justify-content: space-between; */
 }
 
@@ -96,7 +96,6 @@ div {
     /* ustify-content, align-items:  ngang, dọc căn giữa  */
     justify-content: center;
     align-items: center;
-    background: red;
     border-radius: 100%;
 }
 
