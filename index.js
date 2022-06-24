@@ -1,5 +1,4 @@
 (function() {
-
     const chartTickerListDiv = document.getElementsByClassName('chart-ticker-list')[0];
     const runOneYearSelectorText = document.getElementsByClassName('run-one-year-selector')[0];
     const runOneYearButton = document.getElementsByClassName('run-one-year-button')[0];
@@ -25,7 +24,7 @@
         playMultipleYear();
     });
     // Init data
-    const maxCapitalImgWidth = 1000;
+    // const maxCapitalImgWidth = 1000;
     function createDiv(className, innerHTML) {
         let divElement = document.createElement('DIV');
         divElement.setAttribute('class', className);
@@ -42,6 +41,7 @@
         tickerItemDiv.setAttribute('id', tickerData.ticker);
         tickerItemDiv.style.setProperty('width', tickerData.capitalItem + 'px');
         tickerItemDiv.style.setProperty('height', tickerData.capitalItem + 'px');
+        console.log(index);
         tickerItemDiv.style.background = tickerData.color;
         // Create ticker item name div
         let tickerItemNameDiv = createDiv('chart-ticker-item-name', tickerData.ticker);
@@ -51,15 +51,18 @@
         tickerItemDiv.append(tickerItemNameDiv);
         tickerItemDiv.append(tickerItemCapitalTextDiv);
         return tickerItemDiv;
-
     }
+    // function createWidthTickerDataDiv() {
+    // }
+    
     function calculateCapitalWidth(sortedTickerDataList) {
-        // const maxCapital = sortedTickerDataList[0].capital;
+        // const maxCapital = createWidthTickerDataDiv(sortedTickerDataList.capital);
         for(let tickerData of sortedTickerDataList) {
             tickerData.capitalItem = tickerData.capital;
         }
         return sortedTickerDataList;
     }
+
     function createTickerItemOfASpecificTime(tickerDataList) {
         // 1. Clear the chart ticker list
         chartTickerListDiv.innerHTML = '';

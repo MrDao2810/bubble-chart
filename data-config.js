@@ -1,3 +1,5 @@
-let tickerList = ['AAA','ACB','AGG','ANV','APH','ASM','BID','BMI','DXS','EIB','FIT','FLC','MWG','NLG','NT2','NVL','OCB','PC1','PDR','SSI','STB','VRE','POW','PPC','VIC','HMJ','KHC','KUS','UDS','IIJ','LMS','JWA','OIU','TAS'];
+// let tickerList = ['AAA','ACB','AGG','ANV','APH','ASM','BID','BMI','DXS','EIB','FIT','FLC','MWG','NLG','NT2','NVL','OCB','PC1','PDR','SSI','STB','VRE','POW','PPC','VIC','OCB','PC1','PDR','SSI','STB','VRE','POW','PPC','VIC'];
+let tickerList = ['AAA','ACB','AGG','ANV'];
 let velocityRandom = [[5, 10], [2, 7], [14, 19], [4, 9], [2, 7], [13, 18], [12, 17], [11, 16], [1, 6], [2, 7], [3, 8], [7, 12], [12, 17], [2, 7], [5, 10], [10, 15], [12, 15], [13, 16], [5, 8], [12, 15],[11, 13], [12, 15], [13, 16], [10, 13], [12, 14],[11, 13], [12, 15], [13, 16], [12, 14], [12, 14], [2, 7], [10, 13], [9, 13], [5, 9]];
-let initialMarketCapitalization = [100, 80, 70, 90, 85, 102, 65, 70, 66, 120, 111, 121, 223, 91, 87, 135, 87, 99, 63, 79, 55, 150, 79, 90, 88, 66, 101, 45, 94, 68, 74, 130, 160, 174];
+let initialMarketCapitalization = [100, 80, 70, 90];
+// let initialMarketCapitalization = [100, 80, 70, 90, 85, 102, 65, 70, 66, 120, 111, 121, 223, 91, 87, 135, 87, 99, 63, 79, 55, 150, 89, 90, 88, 66, 101, 45, 94, 68, 74, 130, 160, 174];

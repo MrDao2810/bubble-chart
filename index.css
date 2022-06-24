@@ -85,15 +85,16 @@ div {
 }
 
 .chart-panel .chart-ticker-list {
-    /* display: flex; */
-    /* justify-content: space-between; */
+    display: flex;
+    flex-wrap: wrap;
+    width: 270px;
+    height: 175px;
+    background: red;
 }
 
 .chart-panel .chart-ticker-list .chart-ticker-item {
     display: flex;
-    /* Căn theo hàng: flex-direction: column;*/
     flex-direction: column; 
-    /* ustify-content, align-items:  ngang, dọc căn giữa  */
     justify-content: center;
     align-items: center;
     border-radius: 100%;
