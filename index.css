@@ -87,17 +87,16 @@ div {
 .chart-panel .chart-ticker-list {
     display: flex;
     flex-wrap: wrap;
-    width: 270px;
-    height: 175px;
-    background: red;
 }
+.chart-panel .chart-ticker-list .chart-ticker-list-canvas {
+    
+}   
 
 .chart-panel .chart-ticker-list .chart-ticker-item {
     display: flex;
     flex-direction: column; 
     justify-content: center;
     align-items: center;
-    border-radius: 100%;
 }
 
 .chart-panel .chart-ticker-list .chart-ticker-item .chart-ticker-item-name {
