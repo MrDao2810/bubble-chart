@@ -1,7 +1,6 @@
 (function() {
     const chartTickerListDiv = document.getElementsByClassName('chart-ticker-list')[0];
     const chartTickerListCanvas = document.getElementsByClassName('chart-ticker-list-canvas')[0];
-    let chartTickerListCanvasText = chartTickerListCanvas.getContext("2d");
     const runOneYearSelectorText = document.getElementsByClassName('run-one-year-selector')[0];
     const runOneYearButton = document.getElementsByClassName('run-one-year-button')[0];
     let selectedYear = runOneYearSelectorText.value;
@@ -65,6 +64,8 @@
     function createTickerItemOfASpecificTime(tickerDataList) {
         // 1. Clear the chart ticker list
         chartTickerListDiv.innerHTML = '';
+        let chartTickerListCanvasText = chartTickerListCanvas.getContext("2d");
+
         // 2. Sort the data list
         tickerDataList.sort((item1, item2) => {
             return item1.capital > item2.capital ? -1 : item1.capital < item2.capital? 1 : 0;
@@ -84,7 +85,6 @@
                 } else {
                     diameterCirclePrev = tickerDataList[j - 1].capital;
                     graphHorizontalAxisPrev += diameterCirclePrev;
-                    console.log(graphHorizontalAxisPrev);
                 }
                 const tickerItemDiv = createTickerItem(tickerData, j);
                 chartTickerListCanvasText.beginPath();
