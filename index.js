@@ -92,6 +92,7 @@
                 let subtractionHorizontal;
                 // Hiệu 2 vị trí trục tung đường tròn
                 let subtractionVertical;
+                let d;
                 if (j === 0) {
                     diameterCirclePrev = 0;
                     graphHorizontalAxis = tickerData.capital/2;
@@ -104,14 +105,18 @@
                 } else if (j%2 !== 0 ) {
                     // Bán kinh của các hình tròn tại vị trí lẻ
                     circleRadius = tickerDataList[j].capital/2;
-                    subtractionRadiusOfTwoCircles = (tickerDataList[j - 3].capital/2 + circleRadius) - (tickerDataList[j - 2].capital/2 + circleRadius);
+                    subtractionRadiusOfTwoCircles = Math.pow((tickerDataList[j - 3].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[j - 2].capital/2 + circleRadius), 2);
                     console.log(subtractionRadiusOfTwoCircles);
                     subtractionHorizontal = (tickerDataList[j - 3].capital + tickerDataList[j - 2].capital/2) - (tickerDataList[j - 3].capital/2);
-                    console.log(subtractionHorizontal);
+                    // console.log(subtractionHorizontal);
                     subtractionVertical = (tickerDataList[j - 2].capital/2 - tickerDataList[j - 3].capital/2);
-                    console.log(subtractionVertical);
-                    console.log(circleRadius);
-                    console.log(j);
+                    // console.log(subtractionVertical);
+                    d = subtractionRadiusOfTwoCircles - Math.pow(tickerDataList[j - 3].capital/2, 2) + Math.pow(((tickerDataList[j - 3].capital + tickerDataList[j - 2].capital/2)), 2) - Math.pow(tickerDataList[j - 3].capital/2, 2) + Math.pow(tickerDataList[j - 2].capital/2, 2);
+                    console.log(d);
+                    // Math.pow(number, 2); bình phương
+                    // Math.sqrt(number) ; căn bậc hai
+                    // console.log(circleRadius);
+                    // console.log(j);
                 }
                 const tickerItemDiv = createTickerItem(tickerData, j);
                 chartTickerListCanvasText.beginPath();
