@@ -74,25 +74,26 @@
         // 4. Create ticker item div and append to the chart-ticker-list div
         let linesContainingCircle = 5;
         for ( let i = 0; i < linesContainingCircle; i++) {
-            for( let j = 0; j < tickerDataList.length; j++) {
+            let graphHorizontalAxisPrev = 0;
+            for ( let j = 0; j < tickerDataList.length; j++) {
                 let tickerData = tickerDataList[j];
-                let areaOfPreviousSquare;
-                if (j = 0) {
-                    areaOfPreviousSquare = tickerData.capitalItem * tickerData.capitalItem;
+                // Đường kính hình tròn thứ j - 1
+                let diameterCirclePrev;
+                if (j === 0) {
+                    diameterCirclePrev = 0;
                 } else {
-                    let tickerDataPrev = tickerDataList[j - 1];
-                    console.log(tickerDataPrev);
-                    areaOfPreviousSquare = tickerDataPrev.capitalItem * tickerDataPrev.capitalItem;
+                    diameterCirclePrev = tickerDataList[j - 1].capital;
+                    graphHorizontalAxisPrev += diameterCirclePrev;
+                    console.log(graphHorizontalAxisPrev);
                 }
-                console.log(areaOfPreviousSquare);
                 const tickerItemDiv = createTickerItem(tickerData, j);
                 chartTickerListCanvasText.beginPath();
                 // Trục hoành x của đồ thị
-                let graphHorizontalAxis = areaOfPreviousSquare + (tickerData.capitalItem/2);
+                let graphHorizontalAxis = graphHorizontalAxisPrev + tickerData.capitalItem/2;
                 // Trục tung y của đồ thị 
-                let graphVerticalAxis = areaOfPreviousSquare + tickerData.capitalItem/2;
+                let graphVerticalAxis = tickerData.capitalItem/2;
                 // Bán kính đường tròn
-                let circleRadius = tickerData.capitalItem;
+                let circleRadius = tickerData.capitalItem/2;
                 // Vị trí của đường tròn 
                 chartTickerListCanvasText.arc(graphHorizontalAxis, graphVerticalAxis, circleRadius, 0, Math.PI * 2, true);
                 // stroke Để hiển thị các nét vẽ mà mình đã định.

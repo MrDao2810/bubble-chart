@@ -52,7 +52,7 @@ function getRandomColor() {
 function getRandomTickers() {
   const randomIndexes = [];
   const randomTickers = [];
-  const randomAmountTickers = 4;
+  const randomAmountTickers = 34;
   for (let i = 0; i < randomAmountTickers; i++) {
     const randomIndex = getRandInteger(0, randomAmountTickers);
     if (!randomIndexes.includes(randomIndex)) {
