@@ -40,8 +40,8 @@
         let tickerItemDiv = createDiv('chart-ticker-item'); 
         tickerItemDiv.setAttribute('name', tickerData.ticker);
         tickerItemDiv.setAttribute('id', tickerData.ticker);
-        // tickerItemDiv.style.width = tickerData.capitalItem + 'px';
-        // tickerItemDiv.style.height = tickerData.capitalItem + 'px'; 
+        tickerItemDiv.style.width = tickerData.capitalItem + 'px';
+        tickerItemDiv.style.height = tickerData.capitalItem + 'px'; 
         tickerItemDiv.style.background = tickerData.color;
         // Create ticker item name div
         let tickerItemNameDiv = createDiv('chart-ticker-item-name', tickerData.ticker);
@@ -78,22 +78,43 @@
             let graphHorizontalAxisPrev = 0;
             for ( let j = 0; j < tickerDataList.length; j++) {
                 let tickerData = tickerDataList[j];
+                // Trục hoành x của đồ thị
+                let graphHorizontalAxis;
+                // Trục tung y của đồ thị 
+                let graphVerticalAxis;
+                // Bán kính đường tròn
+                let circleRadius = tickerData.capital/2;
                 // Đường kính hình tròn thứ j - 1
                 let diameterCirclePrev;
+                // Hiệu bán kính 2 hình tròn đã biết
+                let subtractionRadiusOfTwoCircles;
+                // Hiệu 2 vị trí trục hoành đường tròn
+                let subtractionHorizontal;
+                // Hiệu 2 vị trí trục tung đường tròn
+                let subtractionVertical;
                 if (j === 0) {
                     diameterCirclePrev = 0;
-                } else {
+                    graphHorizontalAxis = tickerData.capital/2;
+                    graphVerticalAxis = tickerData.capital/2;
+                } else if (j === 1) {
                     diameterCirclePrev = tickerDataList[j - 1].capital;
                     graphHorizontalAxisPrev += diameterCirclePrev;
+                    graphHorizontalAxis = graphHorizontalAxisPrev + tickerData.capital/2;
+                    graphVerticalAxis = tickerData.capital/2;
+                } else if (j%2 !== 0 ) {
+                    // Bán kinh của các hình tròn tại vị trí lẻ
+                    circleRadius = tickerDataList[j].capital/2;
+                    subtractionRadiusOfTwoCircles = (tickerDataList[j - 3].capital/2 + circleRadius) - (tickerDataList[j - 2].capital/2 + circleRadius);
+                    console.log(subtractionRadiusOfTwoCircles);
+                    subtractionHorizontal = (tickerDataList[j - 3].capital + tickerDataList[j - 2].capital/2) - (tickerDataList[j - 3].capital/2);
+                    console.log(subtractionHorizontal);
+                    subtractionVertical = (tickerDataList[j - 2].capital/2 - tickerDataList[j - 3].capital/2);
+                    console.log(subtractionVertical);
+                    console.log(circleRadius);
+                    console.log(j);
                 }
                 const tickerItemDiv = createTickerItem(tickerData, j);
                 chartTickerListCanvasText.beginPath();
-                // Trục hoành x của đồ thị
-                let graphHorizontalAxis = graphHorizontalAxisPrev + tickerData.capitalItem/2;
-                // Trục tung y của đồ thị 
-                let graphVerticalAxis = tickerData.capitalItem/2;
-                // Bán kính đường tròn
-                let circleRadius = tickerData.capitalItem/2;
                 // Vị trí của đường tròn 
                 chartTickerListCanvasText.arc(graphHorizontalAxis, graphVerticalAxis, circleRadius, 0, Math.PI * 2, true);
                 // stroke Để hiển thị các nét vẽ mà mình đã định.
