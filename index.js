@@ -65,7 +65,6 @@
         // 1. Clear the chart ticker list
         chartTickerListDiv.innerHTML = '';
         let chartTickerListCanvasText = chartTickerListCanvas.getContext("2d");
-
         // 2. Sort the data list
         tickerDataList.sort((item1, item2) => {
             return item1.capital > item2.capital ? -1 : item1.capital < item2.capital? 1 : 0;
@@ -76,6 +75,8 @@
         let linesContainingCircle = 5;
         for ( let i = 0; i < linesContainingCircle; i++) {
             let graphHorizontalAxisPrev = 0;
+            let Y = 0;
+            let X = 0;
             for ( let j = 0; j < tickerDataList.length; j++) {
                 let tickerData = tickerDataList[j];
                 // Trục hoành x của đồ thị
@@ -83,52 +84,67 @@
                 // Trục tung y của đồ thị 
                 let graphVerticalAxis;
                 // Bán kính đường tròn
-                let circleRadius = tickerData.capital/2;
+                let circleRadius;
                 // Đường kính hình tròn thứ 1
                 let diameterCirclePrev;
                 // Tổng bán kính 2 hình tròn đã biết
                 let E;
-                let C, B, A, D, a1, a2, b1, b2, delta;
+                let A, B, C, D, delta, a1, a2, b1, b2;  
                 if (j === 0) {
-                    diameterCirclePrev = 0;
+                    circleRadius = tickerData.capital/2
                     graphHorizontalAxis = tickerData.capital/2;
                     graphVerticalAxis = tickerData.capital/2;
                 } else if (j === 1) {
+                    circleRadius = tickerData.capital/2;
                     diameterCirclePrev = tickerDataList[j - 1].capital;
                     graphHorizontalAxisPrev += diameterCirclePrev;
                     graphHorizontalAxis = graphHorizontalAxisPrev + tickerData.capital/2;
                     graphVerticalAxis = tickerData.capital/2;
-                } else if (j === 2 ) {
-                    graphHorizontalAxisPrev += tickerDataList[0].capital;
+                } else if (j === 2) {
+                    graphHorizontalAxisPrev += tickerDataList[j-2].capital;
                     // Bán kính của hình tròn tại vị trí chẵn
                     circleRadius = tickerDataList[j].capital/2;
-                    // (r1+r2)^2 - (r2+r3)^2 : 
-                    E = Math.pow((tickerDataList[0].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[1].capital/2 + circleRadius), 2);
-                    a2 = (graphHorizontalAxisPrev + tickerDataList[1].capital/2);
-                    a1 = (tickerDataList[0].capital/2);
-                    b2 = tickerDataList[1].capital/2;
-                    b1 = tickerDataList[0].capital/2;
+                    // (r1+r3)^2 - (r2+r3)^2 
+                    E = Math.pow((tickerDataList[j-2].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2);
+                    a2 = tickerDataList[j-1].capital/2 + tickerDataList[j-2].capital;
+                    a1 = tickerDataList[j-2].capital/2;
+                    b2 = tickerDataList[j-1].capital/2;
+                    b1 = tickerDataList[j-2].capital/2;
                     D = E - (a1*a1) + (a2*a2) - (b1*b1) + (b2*b2);
-                    // E = totalRadiusOfTwoCircles - Math.pow(tickerDataList[0].capital/2, 2) + Math.pow(((tickerDataList[0].capital + tickerDataList[1].capital/2)), 2) - Math.pow(tickerDataList[0].capital/2, 2) + Math.pow(tickerDataList[1].capital/2, 2);
-                    // console.log(b1);
-                    C = Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[1].capital/2 + circleRadius), 2) - (a2*D)/(a2-a1);
-                    // console.log(C);
+                    C = Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2) - (a2*D)/(a2-a1);
                     B = -(((D*(b2-b1))/Math.pow((a2-a1), 2)) + ((2*a2*(b2-b1))/(a2-a1)) + (2*b2));
-                    A = ((Math.pow((b2-b1)/(a2-a1), 2)) + 1)
+                    A = (Math.pow((b2-b1)/(a2-a1), 2)) + 1;
                     delta = B*B-(4*A*C);
-                    console.log(delta); 
-                    graphVerticalAxis = (-B + Math.sqrt(delta))/(2*A); // y
-                    console.log(graphVerticalAxis);
-                    graphHorizontalAxis = (D-(2*(b2-b1)*graphVerticalAxis))/(2*(a2-a1)); // x
-                    console.log(graphHorizontalAxis);
+                    graphVerticalAxis = (-B + Math.sqrt(delta))/(2*A); // y 
+                    Y += graphVerticalAxis;
+                    graphHorizontalAxis = (D-(2*(b2-b1)*graphVerticalAxis))/(2*(a2-a1)); // x 
+                    X += graphHorizontalAxis;                
                     // Math.pow(number, 2); bình phương
-                    // Math.sqrt(number) ; căn bậc hai
-                    // console.log(circleRadius);
-                    // console.log(j);
+                    // Math.sqrt(number); căn bậc hai
                 }
+                // } else if (j === 3) {
+                //     // Bán kính của hình tròn tại vị trí j
+                //     circleRadius = tickerDataList[j].capital/2;
+                //     // (r1+r3)^2 - (r2+r3)^2 
+                //     E = Math.pow((tickerDataList[0].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[2].capital/2 + circleRadius), 2);
+                //     a2 = X;
+                //     a1 = tickerDataList[0].capital/2;
+                //     b2 = Y;
+                //     b1 = tickerDataList[0].capital/2;
+                //     D = E - (a1*a1) + (a2*a2) - (b1*b1) + (b2*b2);
+                //     C = Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[2].capital/2 + circleRadius), 2) - ((a2*D)/(a2-a1))  ;
+                //     B = -(((D*(b2-b1))/Math.pow((a2-a1), 2)) + ((2*a2*(b2-b1))/(a2-a1)) + (2*b2));
+                //     A = (Math.pow((b2-b1)/(a2-a1), 2)) + 1;
+                //     delta = B*B - (4*A*C); 
+                //     graphVerticalAxis = (-B + Math.sqrt(delta))/(2*A); //  y = 210
+                //     console.log(graphVerticalAxis);
+                //     graphHorizontalAxis = (D-(2*(b2-b1)*graphVerticalAxis))/(2*(a2-a1)); // x = 93
+                //     console.log(graphHorizontalAxis);
+                // }
+                
                 const tickerItemDiv = createTickerItem(tickerData, j);
                 chartTickerListCanvasText.beginPath();
-                // Vị trí của đường tròn 
+                // Vị trí của đường tròn arc(x,y,R,gốc toạ độ,...)
                 chartTickerListCanvasText.arc(graphHorizontalAxis, graphVerticalAxis, circleRadius, 0, Math.PI * 2, true);
                 // Thêm màu cho hình tròn
                 chartTickerListCanvasText.fillStyle = tickerData.color;
