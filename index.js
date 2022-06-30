@@ -65,13 +65,21 @@
         circleRadius = tickerDataList[j].capital/2;
         // (r1+r3)^2 - (r2+r3)^2 
         const E = Math.pow((tickerDataList[j-2].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2);
-        const a2 = tickerDataList[j-1].capital/2 + tickerDataList[j-2].capital;
-        const a1 = tickerDataList[j-2].capital/2;
-        const b2 = tickerDataList[j-1].capital/2;
-        const b1 = tickerDataList[j-2].capital/2;
+        let a1,a2,b1,b2;
+        if ( 1 < j <= 2) {
+            a2 = tickerDataList[j-1].capital/2 + tickerDataList[j-2].capital;
+            a1 = tickerDataList[j-2].capital/2;
+            b2 = tickerDataList[j-1].capital/2;
+            b1 = tickerDataList[j-2].capital/2;
+        } else {
+            a1 
+            a2 
+            b1
+            b2
+        }      
         const D = E - (a1*a1) + (a2*a2) - (b1*b1) + (b2*b2);
-        const C = Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2) - (a2*D)/(a2-a1); //+ (D*D)/(4*Math.pow((a2-a1), 2));
-        const B = -(((D*(b2-b1))/Math.pow((a2-a1), 2)) + ((2*a2*(b2-b1))/(a2-a1)) + (2*b2));
+        const C = Math.pow(D, 2)/(4*Math.pow((a2-a1), 2)) - ((D*a2)/(a2-a1)) + Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2);
+        const B = (-(D*(b2-b1))/Math.pow((a2-a1), 2) + ((2*a2*(b2-b1))/(a2-a1)) - (2*b2));
         const A = (Math.pow((b2-b1)/(a2-a1), 2)) + 1;
         const delta = B*B-(4*A*C);
         graphVerticalAxis = (-B + Math.sqrt(delta))/(2*A); // y 
@@ -85,6 +93,7 @@
     function createTickerItemOfASpecificTime(tickerDataList) {
         // 1. Clear the chart ticker list
         chartTickerListDiv.innerHTML = '';
+        
         let chartTickerListCanvasText = chartTickerListCanvas.getContext("2d");
         // 2. Sort the data list
         tickerDataList.sort((item1, item2) => {
@@ -95,7 +104,8 @@
         // 4. Create ticker item div and append to the chart-ticker-list div
         let linesContainingCircle = 5;
         for (let i = 0; i < linesContainingCircle; i++) {
-            let graphHorizontalAxisPrev = 0;
+            // Đường kính hình tròn thứ j-1
+            let diameterCirclePrev = 0;
             for (let j = 0; j < tickerDataList.length; j++) {
                 let tickerData = tickerDataList[j];
                 // Trục hoành x của đồ thị
@@ -104,17 +114,14 @@
                 let graphVerticalAxis;
                 // Bán kính đường tròn
                 let circleRadius;
-                // Đường kính hình tròn thứ j-1
-                let diameterCirclePrev; 
                 if (j === 0) {
                     circleRadius = tickerData.capital/2
                     graphHorizontalAxis = tickerData.capital/2;
                     graphVerticalAxis = tickerData.capital/2;
-                } else if (j === 1) {
+                } else if (j === 1) {                    
                     circleRadius = tickerData.capital/2;
-                    diameterCirclePrev = tickerDataList[j - 1].capital;
-                    graphHorizontalAxisPrev += diameterCirclePrev;
-                    graphHorizontalAxis = graphHorizontalAxisPrev + tickerData.capital/2;
+                    diameterCirclePrev += tickerDataList[j - 1].capital;
+                    graphHorizontalAxis = diameterCirclePrev + circleRadius;
                     graphVerticalAxis = tickerData.capital/2;
                 } else if (j === 2) {
                     let coordinates = calculateCoordinates(j, tickerDataList);
@@ -143,6 +150,7 @@
                 chartTickerListDiv.append(chartTickerListCanvas);
             }
             return;
+            
         }
     }
 
