@@ -1,5 +1,6 @@
 // Mảng chứa các mốc toạ độ của hình tròn
 let coordinatesResult = [];
+
 (function() {
     const chartTickerListDiv = document.getElementsByClassName('chart-ticker-list')[0];
     const chartTickerListCanvas = document.getElementsByClassName('chart-ticker-list-canvas')[0];
@@ -26,6 +27,7 @@ let coordinatesResult = [];
     runMultipleYearButton.addEventListener('click', () => {
         playMultipleYear();
     });
+
     // Init data
     // const maxCapitalImgWidth = 1000;
     function createDiv(className, innerHTML) {
@@ -62,6 +64,13 @@ let coordinatesResult = [];
         }
         return sortedTickerDataList;
     }
+
+    function circlePositions(coordinatesResult, i) {
+        let circlePosition = [
+            
+        ]
+    }
+
     function calculateCoordinates(j, tickerDataList, coordinatesResult) {
         // Bán kính của hình tròn tại vị trí chẵn
         circleRadius = tickerDataList[j].capital/2;
@@ -69,25 +78,28 @@ let coordinatesResult = [];
         const E = Math.pow((tickerDataList[j-2].capital/2 + circleRadius), 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2);
         let a1,a2,b1,b2;
         if (j === 2) {
-            a2 = tickerDataList[j-1].capital/2 + tickerDataList[j-2].capital
-            a1 = tickerDataList[j-2].capital/2;
-            b2 = tickerDataList[j-1].capital/2;
-            b1 = tickerDataList[j-2].capital/2;
-        } else {
-            for (let i = 3; i < coordinatesResult.length + 1; i++) {
-                if(i%2 !== 0) {
-                    a1 = coordinatesResult[i-2].x;
-                    a2 = coordinatesResult[i-1].x;
-                    b1 = coordinatesResult[i-2].y;
-                    b2 = coordinatesResult[i-1].y;  
-                } else if(i%2 === 0) {
-                    a1 = coordinatesResult[i-2].x;
-                    a2 = coordinatesResult[i-1].x;
-                    b1 = coordinatesResult[i-2].y;
-                    b2 = coordinatesResult[i-1].y;  
-                }
+            for (let i = 0; i < coordinatesResult.length + 1; i++) {
+                a1 = coordinatesResult[0].x;
+                a2 = coordinatesResult[1].x;
+                b2 = coordinatesResult[1].y;
+                b1 = coordinatesResult[0].y;
             }
-        } 
+        }
+        for (let i = 3; i < coordinatesResult.length + 1; i++) {
+            if (i >= 3) {
+                a1 = coordinatesResult[i-2].x;
+                a2 = coordinatesResult[i-1].x;
+                b1 = coordinatesResult[i-2].y;
+                b2 = coordinatesResult[i-1].y;  
+            }
+        }
+        // 0
+        // 1
+        // 2 - 0 1
+        // 3 - 0 2
+        // 4 - 1 2
+        // 5 - 
+        //let circlePosition = [[null, null], [null, null], [0, 1], [0, 2]] // Vị trí của các hình tròn khi tìm được toạ độ x y 
         const D = E - (a1*a1) + (a2*a2) - (b1*b1) + (b2*b2);
         const C = Math.pow(D, 2)/(4*Math.pow((a2-a1), 2)) - ((D*a2)/(a2-a1)) + Math.pow(a2, 2) + Math.pow(b2, 2) - Math.pow((tickerDataList[j-1].capital/2 + circleRadius), 2);
         const B = -(D*(b2-b1))/Math.pow((a2-a1), 2) + ((2*a2*(b2-b1))/(a2-a1)) - (2*b2);
@@ -101,10 +113,10 @@ let coordinatesResult = [];
             x: graphHorizontalAxis
         }
     } 
+
     function createTickerItemOfASpecificTime(tickerDataList) {
         // 1. Clear the chart ticker list
         chartTickerListDiv.innerHTML = '';
-        chartTickerListCanvas.innerHTML = '';
         let chartTickerListCanvasText = chartTickerListCanvas.getContext("2d");
         // 2. Sort the data list
         tickerDataList.sort((item1, item2) => {
@@ -124,13 +136,13 @@ let coordinatesResult = [];
             // Bán kính đường tròn
             let circleRadius;
             if (j === 0) {
-                circleRadius = tickerData.capital/2
-                graphHorizontalAxis = tickerData.capital/2;
+                circleRadius = tickerData.capital/2;
+                graphHorizontalAxis = tickerData.capital/2 + 350;
                 graphVerticalAxis = tickerData.capital/2;   
             } else if (j === 1) {                    
                 circleRadius = tickerData.capital/2;
                 diameterCirclePrev += tickerDataList[j - 1].capital;
-                graphHorizontalAxis = diameterCirclePrev + circleRadius;
+                graphHorizontalAxis = diameterCirclePrev + circleRadius + 350;
                 graphVerticalAxis = tickerData.capital/2;
             } else if (j === 2) {
                 let coordinates = calculateCoordinates(j, tickerDataList, coordinatesResult);
@@ -145,11 +157,12 @@ let coordinatesResult = [];
                 graphHorizontalAxis = coordinates.x; // x    
                 circleRadius = coordinates.r;
             }
+
             // Mảng chứa các mốc toạ độ của hình tròn
             coordinatesResult.push({
                 x: graphHorizontalAxis,
                 y: graphVerticalAxis
-            })
+            })           
             
             const tickerItemDiv = createTickerItem(tickerData, j);
             chartTickerListCanvasText.beginPath();
@@ -160,16 +173,13 @@ let coordinatesResult = [];
             chartTickerListCanvasText.fill();
             // stroke Để hiển thị các nét vẽ mà mình đã định.
             chartTickerListCanvasText.stroke();
-
             chartTickerListCanvas.append(tickerItemDiv);
             chartTickerListDiv.append(chartTickerListCanvas);
         }
-        return coordinatesResult;
-        
+        return coordinatesResult;        
     }
 
     function playOneYear() {
-
         let selectedYear = runOneYearSelectorText.value;
         yearCurrent.innerHTML = 'Year current: ' + ( +selectedYear );
         try {
@@ -180,12 +190,14 @@ let coordinatesResult = [];
         }
         playAYear(selectedYear);
     }
+
     function playAYear(year) {
         let specificYearTickerData = fakeData[year];
         if(specificYearTickerData) {
             createTickerItemOfASpecificTime(specificYearTickerData);
         }
     }
+
     function playOneYearPrev() {
         let selectedYear = runOneYearSelectorText.value;
         yearCurrent.innerHTML = 'Year current: ' + ( +selectedYear - 1 );
@@ -212,6 +224,7 @@ let coordinatesResult = [];
         }
         playAYear(selectedYear);
     }
+
     function playMultipleYear() {
         try {
             let startYear = parseInt(runMultipleYearSelectorStartText.value);
@@ -231,6 +244,7 @@ let coordinatesResult = [];
             console.log('invalid year');
         }
     }
+
     let fakeData = generateData(vn30Data, initialCapital, velocity, 2000, 2100);
     createTickerItemOfASpecificTime(fakeData['2000']);
 })() 
